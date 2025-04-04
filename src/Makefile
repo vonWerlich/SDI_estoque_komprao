@@ -12,7 +12,8 @@ CLASSES = \
 	Product.java\
 	EstoqueDatabase.java\
 	IEstoque.java\
-	ServerEstoque.java
+	ServerEstoque.java\
+	ServerServidor.java
 	
 
 default: classes

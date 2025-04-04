@@ -34,7 +34,7 @@ public class ServerEstoque  implements IEstoque{
         try {
             ServerEstoque server = new ServerEstoque();
             IEstoque stub = (IEstoque) UnicastRemoteObject.exportObject(server, 0);
-            Registry registry = LocateRegistry.createRegistry(6600);
+            Registry registry = LocateRegistry.createRegistry(6602);
 
             registry.bind("Estoque", stub);
 
