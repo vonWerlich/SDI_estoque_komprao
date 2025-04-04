@@ -18,6 +18,13 @@ public class ServerEstoque  implements IEstoque{
         est = new EstoqueDatabase(PATH);
     }
 
+    public Product consultar_produto(String id) throws RemoteException {
+        Product p = est.getItem(Integer.valueOf(id));
+        p.setQtd(1);
+
+        return p;
+    }
+
     public Integer remover_produto(String id) throws RemoteException, NullPointerException {
         if (est.removeItem(Integer.valueOf(id))) {
             return est.qtdItem(Integer.valueOf(id));

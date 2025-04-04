@@ -1,13 +1,13 @@
 public class Product {
     private int id;
     private String descricao;
-    private float valor;
+    private double value;
     private int qtd;
 
-    public Product(int id, String descricao, float valor, int qtd) {
+    public Product(int id, String descricao, double value, int qtd) {
         this.id = id;
         this.descricao = descricao;
-        this.valor = valor;
+        this.value = value;
         this.qtd = qtd;
     }
     
@@ -19,12 +19,16 @@ public class Product {
         return descricao;
     }
 
-    public float getValor() {
-        return valor;
+    public double getvalue() {
+        return value;
     }
 
     public int getQtd() {
         return qtd;
+    }
+
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
     }
 
     public Boolean removeItem(){
@@ -37,7 +41,12 @@ public class Product {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj.id == this.id && obj.descricao == this.descricao && obj.value == this.value;
+    }
+
+    @Override
     public String toString() {
-        return (descricao + "," + valor + "," + qtd + "\n");
+        return (descricao + "," + value + "," + qtd + "\n");
     }
 }

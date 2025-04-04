@@ -34,9 +34,17 @@ public class EstoqueDatabase {
         return data;
     }
 
+    public Product getItem(int id) throws NullPointerException {
+        if(estoqueDatabase.containsKey(id)) {
+            return estoqueDatabase.get(id);
+        }
+
+        throw new NullPointerException("Id inexistente");
+    }
+
     public Boolean removeItem(int id)  throws NullPointerException {
         if (estoqueDatabase.containsKey(id)) {
-            Product p = this.estoqueDatabase.get(id);
+            Product p = estoqueDatabase.get(id);
     
             return p.removeItem();
         }

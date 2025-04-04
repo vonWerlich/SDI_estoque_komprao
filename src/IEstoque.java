@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
  */
 
 public interface IEstoque extends Remote {
+    /* retorna um produto que está disponível no estoque */
+    public Product consultar_produto(String id) throws RemoteException;
     /* retorna a quantidade de produtos disponíveis após a remoção */
     public Integer remover_produto(String id) throws RemoteException;
     /* retorna um relatório de produtos - controle de estoque */

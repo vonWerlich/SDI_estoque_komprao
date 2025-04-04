@@ -11,12 +11,11 @@ public interface IServidor extends Remote {
     /* Aviso para o servidor preparar um novo espaço em memória para armazenar as compras do cliente */
     public Boolean inicializar_venda(String cliente) throws RemoteException;
     /* Registro de venda de um produto. Retorna o valor total da compra até o momento. */
-    public double registrar_produto(String id) throws RemoteException;
+    public double registrar_produto(String cliente, String id) throws RemoteException;
     /* Consulta valor total */
     public double consultar_valor_total(String cliente) throws RemoteException;
     /* Efetua o pagamento final.
      * Após o pagamento, o servidor deve invocar o controle de estoque.
     */
-
     public Boolean pagar(String cliente, double valor) throws RemoteException;
 }
