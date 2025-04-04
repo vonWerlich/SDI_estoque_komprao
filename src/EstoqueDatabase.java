@@ -34,18 +34,33 @@ public class EstoqueDatabase {
         return data;
     }
 
-    public Boolean removeItem(int id) {
-        Product p = this.estoqueDatabase.get(id);
+    public Boolean removeItem(int id)  throws NullPointerException {
+        if (estoqueDatabase.containsKey(id)) {
+            Product p = this.estoqueDatabase.get(id);
+    
+            return p.removeItem();
+        }
 
-        return p.removeItem();
+        throw new NullPointerException("Id inexistente");
+    }
+
+    public Integer qtdItem(int id)  throws NullPointerException {
+        if (estoqueDatabase.containsKey(id)) {
+            Product p = this.estoqueDatabase.get(id);
+    
+            return p.getQtd();
+        }
+
+        throw new NullPointerException("Id inexistente");
+
     }
 
     @Override
     public String toString() {
-        StringBuilder res = new StringBuilder("Relatório de Estoque:\n");
+        StringBuilder res = new StringBuilder("");
 
         for(Map.Entry<Integer, Product> p : estoqueDatabase.entrySet()){
-            res.append(p.getKey()).append("->").append(p.getValue());
+            res.append(p.getKey()).append(",").append(p.getValue());
         }
 
         return res.toString();
@@ -57,6 +72,14 @@ public class EstoqueDatabase {
         try {
             EstoqueDatabase est = new EstoqueDatabase(path);
             System.err.println(est);
+
+            if (est.removeItem(1)) {
+                System.out.println("Item Removido com Sucesso");
+            }else{
+                System.out.println("Erro: não foi possivel remover o item");
+            }
+
+            System.out.println(est);
             
         } catch (Exception e) {
             e.printStackTrace();
