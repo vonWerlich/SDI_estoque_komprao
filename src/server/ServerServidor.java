@@ -12,10 +12,10 @@ import utils.MapProducts;
 
 
 public class ServerServidor implements IServidor{
-      private MapProducts mapProducts = new MapProducts();
+    private MapProducts mapProducts = new MapProducts();
 
     //   Remote Object
-    IEstoque stub;
+    private IEstoque stub;
 
      public ServerServidor(int port)  throws RemoteException, NotBoundException{
         String HOST = "localhost";
@@ -29,7 +29,11 @@ public class ServerServidor implements IServidor{
      }
 
      public Boolean inicializar_venda(String cliente) throws RemoteException {
-        return mapProducts.newList(cliente);
+        if (!mapProducts.containsKey(cliente)) {
+            return mapProducts.newList(cliente);
+        }
+
+        throw new RemoteException("Não é possível consultar uma venda não cadastrada");
      }
 
      public double registrar_produto(String cliente, String id) throws RemoteException {
@@ -68,15 +72,16 @@ public class ServerServidor implements IServidor{
      }
 
       public static void main(String[] args) {
-          int port = 6603;
+          int PORT = 6605;
+          int PORT_SERVER_ESTOQUE  = 6604;
           try {
-              ServerServidor server = new ServerServidor(port);
-              IEstoque stub = (IEstoque) UnicastRemoteObject.exportObject(server, 0);
-              Registry registry = LocateRegistry.createRegistry(port);
+              ServerServidor server = new ServerServidor(PORT_SERVER_ESTOQUE);
+              IServidor stub = (IServidor) UnicastRemoteObject.exportObject(server, 0);
+              Registry registry = LocateRegistry.createRegistry(PORT);
 
               registry.bind("Servidor", stub);
 
-              System.out.println("Servidor de Caixa pronto");
+              System.out.println("Servidor de Caixa está Pronto");
 
             }catch (Exception ex) {
                 ex.printStackTrace();

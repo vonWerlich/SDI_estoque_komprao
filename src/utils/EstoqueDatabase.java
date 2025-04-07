@@ -29,7 +29,7 @@ public class EstoqueDatabase {
                 data.put(p.getId(), p);
             } 
         } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo" + e.getMessage());
+            System.out.println("Erro ao ler o arquivo " + e.getMessage());
         }
 
         return data;
@@ -76,7 +76,7 @@ public class EstoqueDatabase {
     }
 
     public static void main(String[] args) {
-        String path = new String("../database/estoque.csv");
+        String path = new String("database/estoque.csv");
 
         try {
             EstoqueDatabase est = new EstoqueDatabase(path);

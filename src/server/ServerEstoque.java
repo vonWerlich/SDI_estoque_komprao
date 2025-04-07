@@ -15,7 +15,7 @@ import utils.Product;
 import java.rmi.registry.*;
 
 public class ServerEstoque  implements IEstoque{
-    private final String PATH = "../database/estoque.csv";
+    private final String PATH = "database/estoque.csv";
 
     private EstoqueDatabase est;
 
@@ -43,14 +43,15 @@ public class ServerEstoque  implements IEstoque{
     }
 
     public static void main(String[] args) {
+        int port = 6604;
         try {
             ServerEstoque server = new ServerEstoque();
             IEstoque stub = (IEstoque) UnicastRemoteObject.exportObject(server, 0);
-            Registry registry = LocateRegistry.createRegistry(6603);
+            Registry registry = LocateRegistry.createRegistry(port);
 
             registry.bind("Estoque", stub);
 
-            System.out.println("Servidor de Estoque pronto");
+            System.out.println("Servidor de Estoque está Pronto");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

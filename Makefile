@@ -1,18 +1,17 @@
 # GNU Makefile
 JAR=/usr/local/jdk1.8.0_131/bin/jar
 JAVA=/usr/local/jdk1.8.0_131/bin/java
-JAVAC=/usr/local/jdk1.8.0_131/bin/javac/
+JAVAC=/usr/local/jdk1.8.0_131/bin/javac
 
 JFLAGS = -g 
 .SUFFIXES: .java .class
 .java.class:
 	$(JAVAC) $(JFLAGS) $*.java
 
-UTILS = src/utils
-SERVER = src/server
-
 CLASSES = \
-	$(UTILS)/Products.java \
+	HelloServer.java\
+	HelloClient.java\
+	HelloWorld.java
 
 default: classes
 

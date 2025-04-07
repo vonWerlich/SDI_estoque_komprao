@@ -4,34 +4,141 @@ package caixa;
     Caixa não pode falar diretamente com Estoque.
  */
 
- import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import server.IServidor;
 
  public class Caixa {
+
+    private String cpf;
+    private IServidor stub;
+    Scanner s = new Scanner(System.in);
+
+    public Caixa(int port) throws NotBoundException ,RemoteException {
+        String HOST = "localhost";
+
+        Registry registry = LocateRegistry.getRegistry(HOST, port);
+        stub = (IServidor) registry.lookup("Servidor");
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void inicializar_caixa() throws RemoteException{
+        String cpf = "";
+        
+        while (true) {
+            System.out.println("Por favor, insira o seu CPF (xxx.xxx.xxx-xx)");
+            System.out.println(">");
+            cpf = s.nextLine();
+
+            if(cpf.length() == 11){
+                this.cpf = cpf;
+                if(stub.inicializar_venda(this.cpf)){
+                    System.out.println("Operação inicializada com sucesso");
+                    return;
+                }else{
+                    System.out.println("CPF invalido, já está sendo utilizado, por favor insira outro");
+                }
+
+            }
+
+            System.out.println("CPF invalido, por favor insira em um formato valído");
+
+        }
+    }
+
+    public void registrar_produto() throws RemoteException {
+        int id = -1;
+        double valor_pagar = 0;
+
+        while(true){
+            System.out.println("Digite o id do produto (de 1 a 5):");
+            System.out.println(">");
+    
+            id = Integer.parseInt(s.nextLine());
+
+            if (1 <= id && id <= 5){
+                valor_pagar = stub.registrar_produto(this.cpf, String.valueOf(id));
+                System.out.println("Valor a ser pago atual R$ " + String.format("%.2f", valor_pagar));
+                break;
+            }else{
+                System.out.println("Id do produto invalido");
+            }
+
+        }
+
+    }
+
+    public double consultar_valor_total(String cliente) throws RemoteException {
+        return stub.consultar_valor_total(cliente);
+    }
+
+    public void pagar() throws RemoteException {
+        double valor_pagar = 0;
+        
+        while (true) {
+            System.out.println("Valor a ser pago: R$ " + consultar_valor_total(this.cpf));
+            System.out.println("Digite o valor a ser pago:");
+            System.out.println(">");
+
+            valor_pagar = Double.parseDouble(s.nextLine());
+
+            if(stub.pagar(this.cpf, valor_pagar)){
+                System.out.println("Compra finalizada com sucesso");
+                return;
+            }
+
+            System.out.println("Valor diferente do valor a ser pago, por favor digite o valor a ser pago");
+        }
+        
+    }
+
      public static void main(String[] args) {
-         try {
-             IServidor servidor = (IServidor) Naming.lookup("rmi://localhost/Servidor");
-             
-             String cliente = "cliente1";
-             servidor.inicializar_venda(cliente);
-             
-             System.out.println("Adicionando produtos...");
-             servidor.registrar_produto("produto1");
-             servidor.registrar_produto("produto2");
-             
-             double total = servidor.consultar_valor_total(cliente);
-             System.out.println("Total a pagar: " + total);
-             
-             boolean pago = servidor.pagar(cliente, total);
-             if (pago) {
-                 System.out.println("Pagamento realizado com sucesso!");
-             } else {
-                 System.out.println("Erro no pagamento!");
-             }
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
+        int PORT = 6605;
+        int opcao = -1;
+
+        Scanner s = new Scanner(System.in);
+
+        try {
+            Caixa caixa = new Caixa(PORT);
+    
+            System.out.println("Iniciar Operação do Caixa");
+            caixa.inicializar_caixa();
+
+            while (true) {
+                caixa.registrar_produto();
+
+                do {
+                    System.out.println("Deseja realizar mais uma compra (1 para sim, 2 para não)");
+                    System.out.println(">");
+    
+                    opcao = Integer.parseInt(s.nextLine());
+    
+                    if (opcao != 1 && opcao != 2){
+                        System.out.println("Opção inválida por favor escolha uma das duas");
+                    }
+                    
+                } while (opcao != 1 && opcao != 2);
+
+                if (opcao == 2) {
+                    caixa.pagar();
+                    break;
+                }
+
+            }
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
      }
  }
  
