@@ -1,3 +1,4 @@
+package server;
 
 /*
  * O servidor deve oferecer:
@@ -7,6 +8,10 @@
  
 import java.rmi.*;
 import java.rmi.server.*;
+
+import utils.EstoqueDatabase;
+import utils.Product;
+
 import java.rmi.registry.*;
 
 public class ServerEstoque  implements IEstoque{
@@ -41,11 +46,11 @@ public class ServerEstoque  implements IEstoque{
         try {
             ServerEstoque server = new ServerEstoque();
             IEstoque stub = (IEstoque) UnicastRemoteObject.exportObject(server, 0);
-            Registry registry = LocateRegistry.createRegistry(6602);
+            Registry registry = LocateRegistry.createRegistry(6603);
 
             registry.bind("Estoque", stub);
 
-            System.out.println("Servidor pronto");
+            System.out.println("Servidor de Estoque pronto");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -1,4 +1,7 @@
-public class Product {
+package utils;
+import java.io.Serializable;
+
+public class Product implements Serializable{
     private int id;
     private String descricao;
     private double value;
@@ -19,7 +22,7 @@ public class Product {
         return descricao;
     }
 
-    public double getvalue() {
+    public double getValue() {
         return value;
     }
 
@@ -29,6 +32,10 @@ public class Product {
 
     public void setQtd(int qtd) {
         this.qtd = qtd;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 
     public Boolean removeItem(){
@@ -42,11 +49,12 @@ public class Product {
 
     @Override
     public boolean equals(Object obj) {
-        return obj.id == this.id && obj.descricao == this.descricao && obj.value == this.value;
+        Product p = (Product) obj;
+        return p.id == this.id;
     }
 
     @Override
     public String toString() {
-        return (descricao + "," + value + "," + qtd + "\n");
+        return (descricao + "," +  String.format("%.2f", value) + "," + qtd + "\n");
     }
 }

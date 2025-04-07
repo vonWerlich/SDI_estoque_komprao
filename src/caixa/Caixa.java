@@ -1,9 +1,12 @@
+package caixa;
 /*
     Caixa é o programa que irá consumir as operações do Servidor.
     Caixa não pode falar diretamente com Estoque.
  */
 
  import java.rmi.Naming;
+
+import server.IServidor;
 
  public class Caixa {
      public static void main(String[] args) {

@@ -1,5 +1,8 @@
+package server;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
+import utils.Product;
 
 /*
  * O controle de estoque é responsável por anotar quais produtos foram vendidos e por entregar um relatório
