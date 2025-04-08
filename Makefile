@@ -1,7 +1,10 @@
 # GNU Makefile
 JAR=/usr/local/jdk1.8.0_131/bin/jar
-JAVA=/usr/local/jdk1.8.0_131/bin/java
-JAVAC=/usr/local/jdk1.8.0_131/bin/javac
+#JAVA=/usr/local/jdk1.8.0_131/bin/java
+#JAVAC=/usr/local/jdk1.8.0_131/bin/javac
+
+JAVA=java
+JAVAC=javac
 
 JFLAGS = -g 
 .SUFFIXES: .java .class
@@ -9,9 +12,11 @@ JFLAGS = -g
 	$(JAVAC) $(JFLAGS) $*.java
 
 CLASSES = \
-	HelloServer.java\
-	HelloClient.java\
-	HelloWorld.java
+	Caixa.java\
+	IEstoque.java\
+	IServidor.java\
+	ServerEstoque.java\
+	ServerServidor.java\
 
 default: classes
 
