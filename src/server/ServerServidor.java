@@ -40,6 +40,7 @@ public class ServerServidor implements IServidor{
         try {
             if (mapProducts.containsKey(cliente)) {
                 mapProducts.add(cliente, stub.consultar_produto(id));
+                System.out.println(stub.relatorio_produtos());
                 return mapProducts.getTotalValueList(cliente);
             }
             
@@ -64,7 +65,7 @@ public class ServerServidor implements IServidor{
 
         if(totalValue == valor){
             mapProducts.removeList(cliente);
-            stub.relatorio_produtos();
+            System.out.println(stub.relatorio_produtos());
             return true;
         }
 

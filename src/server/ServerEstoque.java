@@ -25,7 +25,7 @@ public class ServerEstoque  implements IEstoque{
 
     public Product consultar_produto(String id) throws RemoteException {
         Product p = est.getItem(Integer.valueOf(id));
-        p.setQtd(1);
+        p.setQtd(p.getQtd() - 1);
 
         return p;
     }
