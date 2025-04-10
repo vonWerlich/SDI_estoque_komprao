@@ -9,19 +9,38 @@ public class MapProducts {
 
     public MapProducts() {}
 
-    public boolean containsKey(String id) {
+    public boolean contains_key(String id) {
         return mapProducts.containsKey(id);
     }
 
-    public double getTotalValueList(String id) throws NullPointerException {
+    public boolean part_key_exists(String id) {
+        String[] id_array = id.split(":");
+
+        for (String key : mapProducts.keySet()) {
+            String[] key_array = key.split(":");
+            
+            if (id_array[1].equals(key_array[1])){
+                if(!id_array[0].equals(key_array[0])){
+                    return true;
+                }
+            }
+
+        }
+        System.out.println();
+
+        return false;
+    }
+
+    public double get_total_value_list(String id) throws NullPointerException {
         if (mapProducts.containsKey(id)) {
-            return getList(id).getTotalValue();
+            return get_list(id).getTotalValue();
         }
 
         throw new NullPointerException("Id inexistente");
     }
 
-    public boolean newList(String id) {
+
+    public boolean new_list(String id) {
         if (mapProducts.containsKey(id)) {
             return false;
         }
@@ -30,7 +49,7 @@ public class MapProducts {
         return true;
     }
 
-    public Products getList(String id) throws NullPointerException {
+    public Products get_list(String id) throws NullPointerException {
         if (mapProducts.containsKey(id)) {
             return mapProducts.get(id);
         }
@@ -38,7 +57,7 @@ public class MapProducts {
         throw new NullPointerException("Id inexistente");
     }
 
-    public void removeList(String id) throws NullPointerException {
+    public void remove_list(String id) throws NullPointerException {
         if (mapProducts.containsKey(id)) {
             mapProducts.remove(id);
         }else{

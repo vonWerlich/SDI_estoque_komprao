@@ -17,7 +17,9 @@ import server.IServidor;
 
  public class Caixa {
 
+    private int id;
     private String cpf;
+
     private IServidor stub;
     Scanner s = new Scanner(System.in);
 
@@ -32,17 +34,36 @@ import server.IServidor;
         return cpf;
     }
 
-    public void inicializar_caixa() throws RemoteException{
-        String cpf = "";
-        
+
+    public void inicializada_caixa() {
+        System.out.println("Caixa inicializado");
+
         while (true) {
-            System.out.println("Por favor, insira o seu CPF (xxx.xxx.xxx-xx)");
+            System.out.println("Por favor insira o identificador do caixa, o identificador aceita apenas número maiores que zero");
+            System.out.println(">");
+            id = Integer.parseInt(s.nextLine());
+
+            if(id > 0) {
+                System.out.println("Caixa inicializado com sucesso");
+                return;
+            }else{
+                System.out.println("Identificador do caixa invalido, digite um número maior que zero");
+            }
+        }
+
+    }
+
+
+    public void inicializar_compra() throws RemoteException{
+        String cpf = "";
+        while (true) {
+            System.out.println("Por favor, insira o seu CPF ");
             System.out.println(">");
             cpf = s.nextLine();
 
             if(cpf.length() == 11){
                 this.cpf = cpf;
-                if(stub.inicializar_venda(this.cpf)){
+                if(stub.inicializar_venda(this.id + ":" + this.cpf)){
                     System.out.println("Operação inicializada com sucesso");
                     return;
                 }else{
@@ -67,7 +88,7 @@ import server.IServidor;
             id = Integer.parseInt(s.nextLine());
 
             if (1 <= id && id <= 5){
-                valor_pagar = stub.registrar_produto(this.cpf, String.valueOf(id));
+                valor_pagar = stub.registrar_produto(this.id + ":" + this.cpf, String.valueOf(id));
                 System.out.println("Valor a ser pago atual R$ " + String.format("%.2f", valor_pagar));
                 break;
             }else{
@@ -92,7 +113,7 @@ import server.IServidor;
 
             valor_pagar = Double.parseDouble(s.nextLine());
 
-            if(stub.pagar(this.cpf, valor_pagar)){
+            if(stub.pagar(this.id + ":" + this.cpf, valor_pagar)){
                 System.out.println("Compra finalizada com sucesso");
                 return;
             }
@@ -103,38 +124,42 @@ import server.IServidor;
     }
 
      public static void main(String[] args) {
-        int PORT = 6605;
+        int PORT = 6601;
         int opcao = -1;
 
         Scanner s = new Scanner(System.in);
 
         try {
             Caixa caixa = new Caixa(PORT);
-    
-            System.out.println("Iniciar Operação do Caixa");
-            caixa.inicializar_caixa();
+            caixa.inicializada_caixa();
 
             while (true) {
-                caixa.registrar_produto();
-
-                do {
-                    System.out.println("Deseja realizar mais uma compra (1 para sim, 2 para não)");
-                    System.out.println(">");
+                System.out.println("Iniciar Operação do Caixa");
+                caixa.inicializar_compra();
     
-                    opcao = Integer.parseInt(s.nextLine());
+                while (true) {
+                    caixa.registrar_produto();
     
-                    if (opcao != 1 && opcao != 2){
-                        System.out.println("Opção inválida por favor escolha uma das duas");
+                    do {
+                        System.out.println("Deseja realizar mais uma compra (1 para sim, 2 para não)");
+                        System.out.println(">");
+        
+                        opcao = Integer.parseInt(s.nextLine());
+        
+                        if (opcao != 1 && opcao != 2){
+                            System.out.println("Opção inválida por favor escolha uma das duas");
+                        }
+                        
+                    } while (opcao != 1 && opcao != 2);
+    
+                    if (opcao == 2) {
+                        caixa.pagar();
+                        break;
                     }
-                    
-                } while (opcao != 1 && opcao != 2);
-
-                if (opcao == 2) {
-                    caixa.pagar();
-                    break;
+    
                 }
-
             }
+    
 
         }catch(Exception ex){
             ex.printStackTrace();

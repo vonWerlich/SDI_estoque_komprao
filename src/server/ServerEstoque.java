@@ -43,11 +43,11 @@ public class ServerEstoque  implements IEstoque{
     }
 
     public static void main(String[] args) {
-        int port = 6604;
+        int PORT= 6600;
         try {
             ServerEstoque server = new ServerEstoque();
             IEstoque stub = (IEstoque) UnicastRemoteObject.exportObject(server, 0);
-            Registry registry = LocateRegistry.createRegistry(port);
+            Registry registry = LocateRegistry.createRegistry(PORT);
 
             registry.bind("Estoque", stub);
 

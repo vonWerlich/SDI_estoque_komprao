@@ -12,11 +12,17 @@ BIN_DIR=bin
 # Encontrar todos os .java recursivamente
 SOURCES=$(shell find $(SRC_DIR) -name "*.java")
 
-# Classe com o método main (ajuste conforme necessário)
-MAIN_CLASS=caixa.Caixa
-
 # Alvo padrão
-all: compile
+all: ServerEstoque ServerServidor Caixa
+
+ServerEstoque: ServerEstoque.class
+	$(JAVA) -cp $(BIN_DIR) server.ServerEstoque 
+
+ServerServidor: ServerServidor.class
+	$(JAVA) -cp $(BIN_DIR) server.ServerServidor
+
+Caixa: Caixa.class
+	$(JAVA) -cp $(BIN_DIR) caixa.Caixa
 
 # Compilar os .java para .class dentro de bin/
 compile:
@@ -24,8 +30,14 @@ compile:
 	javac -d $(BIN_DIR) $(SOURCES)
 
 # Rodar o programa
-run: compile
-	java -cp $(BIN_DIR) $(MAIN_CLASS)
+estoque: 
+	java -cp $(BIN_DIR) server.ServerEstoque 
+
+servidor:
+	java -cp $(BIN_DIR) server.ServerServidor
+
+caixa:
+	java -cp $(BIN_DIR) caixa.Caixa
 	
 # Limpar os .class
 clean:
