@@ -1,26 +1,32 @@
 # GNU Makefile
 JAR=/usr/local/jdk1.8.0_131/bin/jar
-#JAVA=/usr/local/jdk1.8.0_131/bin/java
-#JAVAC=/usr/local/jdk1.8.0_131/bin/javac
+JAVA=/usr/local/jdk1.8.0_131/bin/java
+JAVAC=/usr/local/jdk1.8.0_131/bin/javac
 
-JAVA=java
-JAVAC=javac
+#JAVA=java
+#JAVAC=javac
 
-JFLAGS = -g 
-.SUFFIXES: .java .class
-.java.class:
-	$(JAVAC) $(JFLAGS) $*.java
+SRC_DIR=src
+BIN_DIR=bin
 
-CLASSES = \
-	Caixa.java\
-	IEstoque.java\
-	IServidor.java\
-	ServerEstoque.java\
-	ServerServidor.java\
+# Encontrar todos os .java recursivamente
+SOURCES=$(shell find $(SRC_DIR) -name "*.java")
 
-default: classes
+# Classe com o método main (ajuste conforme necessário)
+MAIN_CLASS=caixa.Caixa
 
-classes: $(CLASSES:.java=.class)
+# Alvo padrão
+all: compile
 
+# Compilar os .java para .class dentro de bin/
+compile:
+	mkdir -p $(BIN_DIR)
+	javac -d $(BIN_DIR) $(SOURCES)
+
+# Rodar o programa
+run: compile
+	java -cp $(BIN_DIR) $(MAIN_CLASS)
+	
+# Limpar os .class
 clean:
-	rm -f *.class 
+	rm -rf $(BIN_DIR)
