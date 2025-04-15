@@ -1,0 +1,72 @@
+package client;
+
+import java.net.URL;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fornecedor.src.FornecedorServer;
+import utils.Product;
+
+public  class ClientFornecedor {
+    private final String URL = "http://127.0.0.1:9876/WSFornecedor?wsdl";
+    private FornecedorServer server;
+
+    public ClientFornecedor() throws Exception{
+        URL url = new URL(this.URL);
+        QName qname = new QName("http://src.fornecedor/", "FornecedorServerImplService");
+        Service service = Service.create(url, qname);
+
+        server = service.getPort(FornecedorServer.class);
+    }
+
+    private String[] products_to_array_ids(List<Integer> products) {
+        List<String> list_ids = new ArrayList<String>();
+
+        for(Integer p_id: products) {
+            list_ids.add(Integer.toString(p_id));
+        }
+
+        System.out.println(list_ids.stream().toArray(String[]::new));
+        return list_ids.stream().toArray(String[]::new);
+    }
+
+    public double comprar_produtos(List<Integer> products ){
+        return server.comprarProdutos(products_to_array_ids(products));
+    }
+
+    public boolean pagar_produtos(double valor){
+        return server.pagarProdutos(valor);
+    }
+
+    public static void main(String[] args) {
+        try {
+            ClientFornecedor client = new ClientFornecedor();
+
+            List<Integer> products = new ArrayList<Integer>();
+
+            // int id, String descricao, double value, int qtd
+            /*
+                1000;Mostarda 1kg;54;29.11
+                1001;Presunto 1kg;87;28.34
+                1002;Peixe 200g;21;10.06  
+            */
+            products.add(1000);
+            products.add(1001);
+            products.add(1002);
+
+            System.out.println(client.comprar_produtos(products));
+
+            double value = 67.51;
+
+            System.out.println(client.pagar_produtos(value));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
