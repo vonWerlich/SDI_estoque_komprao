@@ -1,4 +1,5 @@
 package utils;
+
 import java.io.Serializable;
 
 public class Product implements Serializable{
@@ -45,6 +46,10 @@ public class Product implements Serializable{
         }
 
         return false;
+    }
+
+    public String standardString(){
+        return id + "," + descricao + "," + qtd + "," + String.format("%.2f", value) + "\n";
     }
 
     @Override

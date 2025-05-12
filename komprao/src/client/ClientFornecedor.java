@@ -12,11 +12,10 @@ import fornecedor.src.FornecedorServer;
 import utils.Product;
 
 public  class ClientFornecedor {
-    private final String URL = "http://127.0.0.1:9876/WSFornecedor?wsdl";
     private FornecedorServer server;
 
-    public ClientFornecedor() throws Exception{
-        URL url = new URL(this.URL);
+    public ClientFornecedor(String URL) throws Exception{
+        URL url = new URL(URL);
         QName qname = new QName("http://src.fornecedor/", "FornecedorServerImplService");
         Service service = Service.create(url, qname);
 
@@ -44,7 +43,9 @@ public  class ClientFornecedor {
 
     public static void main(String[] args) {
         try {
-            ClientFornecedor client = new ClientFornecedor();
+            String URL = "http://127.0.0.1:9876/WSFornecedor?wsdl";
+
+            ClientFornecedor client = new ClientFornecedor(URL);
 
             List<Integer> products = new ArrayList<Integer>();
 

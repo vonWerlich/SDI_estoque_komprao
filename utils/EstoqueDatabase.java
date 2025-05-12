@@ -1,11 +1,12 @@
 package utils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class EstoqueDatabase {
     private Map<Integer, Product> estoqueDatabase = new HashMap<Integer, Product>();
@@ -19,14 +20,19 @@ public class EstoqueDatabase {
         try {
             List<String> lines = Files.readAllLines(Paths.get(path));
             for (String l : lines) {
-                String[] values = l.split(",");
-                Product p = new Product(
-                    Integer.valueOf(values[0]),
-                    values[1],
-                    Float.valueOf(values[2]),
-                    Integer.valueOf(values[3]));
+                String[] values = l.split(";");
+                if (!values[0].equals("Codigo")){
+                    Product p = new Product(
+                        Integer.valueOf(values[0]),
+                        values[1],
+                        Float.valueOf(values[3]),
+                        Integer.valueOf(values[2])
+                    );
 
-                data.put(p.getId(), p);
+                    // System.out.println(p);
+    
+                    data.put(p.getId(), p);
+                }
             } 
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo " + e.getMessage());

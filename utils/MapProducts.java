@@ -1,6 +1,6 @@
 package utils;
+
 import java.util.Iterator;
-import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +66,7 @@ public class MapProducts {
     }
 
     public void add(String id, Product item) throws NullPointerException, Exception {
+        System.out.println(mapProducts.containsKey(id));
         if (mapProducts.containsKey(id)) {
             Products p = mapProducts.get(id);            
             p.add(item);
