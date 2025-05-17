@@ -5,10 +5,11 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import fornecedor.FornecedorServer;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import fornecedor.src.FornecedorServer;
 import utils.Product;
 
 public  class ClientFornecedor {

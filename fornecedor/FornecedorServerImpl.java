@@ -1,4 +1,4 @@
-package fornecedor.src;
+package fornecedor;
 
 import javax.jws.WebService;
 
@@ -7,9 +7,7 @@ import utils.EstoqueDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import transportadora.SendQueueCarrier;
-
-@WebService(endpointInterface = "fornecedor.src.FornecedorServer")
+@WebService(endpointInterface = "fornecedor.FornecedorServer")
 public class FornecedorServerImpl implements FornecedorServer{
     private final String PATH = "database/estoque.csv";
 
@@ -22,7 +20,7 @@ public class FornecedorServerImpl implements FornecedorServer{
     }
 
     public double comprarProdutos(String produtos[]){
-        SendQueueCarrier carrier = new SendQueueCarrier();
+        Send carrier = new Send();
         List<String> messages = new ArrayList<String>();
 
         double total_value = 0;

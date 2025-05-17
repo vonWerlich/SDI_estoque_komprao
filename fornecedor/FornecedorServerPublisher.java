@@ -1,4 +1,4 @@
-package fornecedor.src;
+package fornecedor;
 
 import javax.xml.ws.Endpoint;
 
