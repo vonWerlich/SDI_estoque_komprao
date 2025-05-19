@@ -15,8 +15,8 @@ public class Send {
 
     public Send(){}
 
-    private String joinMessages(List<String> produtos){
-        String res = "";
+    private List<String> joinMessages(List<String> produtos){
+        List<String> res = new ArrayList<String>();
 
         int numMessages = produtos.size() / 10;
         int resMessages = produtos.size() % 10; // resto das mensagens a serem enviadas
@@ -30,7 +30,7 @@ public class Send {
                 cont++;
             }
 
-            res += message;
+            res.add(message);
             message = "";
         }
 
@@ -40,18 +40,21 @@ public class Send {
                 cont++;
         }
 
-        res += message;
+        res.add(message);
 
         return res;
     }
 
     public void sendCarrier(List<String> produtos) throws Exception{
-        String messages = this.joinMessages(produtos);
+        List<String> messages = this.joinMessages(produtos);
+
 
         this.channelConnect();
 
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        channel.basicPublish("", QUEUE_NAME, null, messages.getBytes("UTF-8"));
+        for (String m : messages) {
+            channel.basicPublish("", QUEUE_NAME, null, m.getBytes("UTF-8"));
+        }
         System.out.println(" [x] Send '" + messages + "'");
 
         this.channelClose();

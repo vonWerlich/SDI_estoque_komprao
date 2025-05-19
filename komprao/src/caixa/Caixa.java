@@ -77,19 +77,41 @@ import server.IServidor;
         }
     }
 
-    public void registrar_produto() throws RemoteException {
-        int id = -1;
+    public void qtd_produto(Integer id) throws RemoteException {
         double valor_pagar = 0;
 
         while(true){
-            System.out.println("Digite o id do produto (de 1 a 5):");
+            System.out.println("Digite a quantidade que deseja comprar (de 1 a 10)");
+            System.out.println(">");
+
+            int qtd = Integer.parseInt(s.nextLine());
+
+            if (1 <= qtd && qtd <= 10){
+                for (int i = 0; i < qtd; i++) {
+                    valor_pagar = stub.registrar_produto(this.id + ":" + this.cpf, String.valueOf(id));
+                }
+                System.out.println("Valor a ser pago atual R$ " + String.format("%.2f", valor_pagar));
+                break;
+            }else{
+                System.out.println("Valor fora faixa, por favor tente de novo");
+            }
+
+        }
+    }
+
+    public void registrar_produto() throws RemoteException {
+        int id = -1;
+   
+        while(true){
+            System.out.println("Digite o id do produto (de 1001 a 1299):");
             System.out.println(">");
     
             id = Integer.parseInt(s.nextLine());
 
-            if (1 <= id && id <= 5){
-                valor_pagar = stub.registrar_produto(this.id + ":" + this.cpf, String.valueOf(id));
-                System.out.println("Valor a ser pago atual R$ " + String.format("%.2f", valor_pagar));
+            if (1001 <= id && id <= 1299){
+
+                qtd_produto(id);
+                
                 break;
             }else{
                 System.out.println("Id do produto invalido");
@@ -124,7 +146,7 @@ import server.IServidor;
     }
 
      public static void main(String[] args) {
-        int PORT = 6601;
+        int PORT = 6605;
         int opcao = -1;
 
         Scanner s = new Scanner(System.in);

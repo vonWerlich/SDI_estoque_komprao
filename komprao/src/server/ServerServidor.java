@@ -9,6 +9,7 @@ import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
 
 import utils.MapProducts;
+import utils.Product;
 
 
 public class ServerServidor implements IServidor{
@@ -65,6 +66,10 @@ public class ServerServidor implements IServidor{
         double totalValue = consultar_valor_total(cliente);
 
         if(totalValue == valor){
+            for (Product p : mapProducts.get_list(cliente).getProducts()) {
+                stub.remover_produto(Integer.toString(p.getId()));
+            }
+
             mapProducts.remove_list(cliente);
             System.out.println(stub.relatorio_produtos());
             return true;
@@ -74,8 +79,8 @@ public class ServerServidor implements IServidor{
      }
 
       public static void main(String[] args) {
-          int PORT = 6601;
-          int PORT_SERVER_ESTOQUE  = 6600;
+          int PORT = 6605;
+          int PORT_SERVER_ESTOQUE  = 6606;
           try {
               ServerServidor server = new ServerServidor(PORT_SERVER_ESTOQUE);
               IServidor stub = (IServidor) UnicastRemoteObject.exportObject(server, 0);

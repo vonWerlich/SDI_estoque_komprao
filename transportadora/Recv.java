@@ -9,12 +9,11 @@ public class Recv {
     private final static String QUEUE_NAME = "sdi_queue";
     private final static String HOST = "localhost";
 
-
     public static void main(String[] args) throws IOException, TimeoutException{
         
         System.out.println("Queue Server");
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(QUEUE_NAME);
+        factory.setHost(HOST);
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 

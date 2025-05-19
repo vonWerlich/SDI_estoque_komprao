@@ -12,6 +12,10 @@ public class Products {
         totalValue = 0;
     }
 
+    public List<Product> getProducts() {
+        return this.products;
+    }
+
     public double getTotalValue() {
         return totalValue;
     }

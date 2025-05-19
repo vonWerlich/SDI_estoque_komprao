@@ -17,7 +17,7 @@ public  class ClientFornecedor {
 
     public ClientFornecedor(String URL) throws Exception{
         URL url = new URL(URL);
-        QName qname = new QName("http://src.fornecedor/", "FornecedorServerImplService");
+        QName qname = new QName("http://fornecedor/", "FornecedorServerImplService");
         Service service = Service.create(url, qname);
 
         server = service.getPort(FornecedorServer.class);
@@ -44,7 +44,7 @@ public  class ClientFornecedor {
 
     public static void main(String[] args) {
         try {
-            String URL = "http://127.0.0.1:9876/WSFornecedor?wsdl";
+            String URL = "http://127.0.0.1:9879/WSFornecedor?wsdl";
 
             ClientFornecedor client = new ClientFornecedor(URL);
 
@@ -56,13 +56,14 @@ public  class ClientFornecedor {
                 1001;Presunto 1kg;87;28.34
                 1002;Peixe 200g;21;10.06  
             */
-            products.add(1000);
-            products.add(1001);
-            products.add(1002);
+            
+            for (int i = 1000; i < 1016; i++) {
+                products.add(i);
+            }
 
             System.out.println(client.comprar_produtos(products));
 
-            double value = 67.51;
+            double value = 15 * 29.11;
 
             System.out.println(client.pagar_produtos(value));
 

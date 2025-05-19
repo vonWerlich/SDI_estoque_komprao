@@ -32,10 +32,22 @@ Caixa:
 	$(JAVA) -cp $(BIN_DIR) caixa.Caixa
 
 Fornecedor:
-	$(JAVA) -cp $(CP) caixa.FornecedorServerPublisher
+	$(JAVA) -cp $(CP):$(BIN_DIR) fornecedor.FornecedorServerPublisher
 
 Transportadora: 
-	$(JAVA) -cp $(CP) transportadora.Recv
+	$(JAVA) -cp $(CP):$(BIN_DIR) transportadora.Recv
+
+run:
+	$(JAVA) -cp $(CP):$(BIN_DIR) transportadora.Recv; exec bash 
+	sleep 2
+	$(JAVA) -cp $(CP):$(BIN_DIR) caixa.FornecedorServerPublisher 
+	sleep 2
+	$(JAVA) -cp $(BIN_DIR) server.ServerEstoque 
+	sleep 2
+	$(JAVA) -cp $(BIN_DIR) caixa.Caixa
+
+
+
 
 # Compilar os .java para .class dentro de bin/
 compile:

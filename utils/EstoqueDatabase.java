@@ -28,8 +28,6 @@ public class EstoqueDatabase {
                         Float.valueOf(values[3]),
                         Integer.valueOf(values[2])
                     );
-
-                    // System.out.println(p);
     
                     data.put(p.getId(), p);
                 }
@@ -82,20 +80,17 @@ public class EstoqueDatabase {
     }
 
     public static void main(String[] args) {
-        String path = new String("database/estoque.csv");
+        String path = new String("../database/estoque.csv");
 
         try {
             EstoqueDatabase est = new EstoqueDatabase(path);
-            System.err.println(est);
+            System.out.println(est);
 
-            if (est.removeItem(1)) {
+            if (est.removeItem(1001)) {
                 System.out.println("Item Removido com Sucesso");
             }else{
                 System.out.println("Erro: não foi possivel remover o item");
-            }
-
-            System.out.println(est);
-            
+            }            
         } catch (Exception e) {
             e.printStackTrace();
         }
